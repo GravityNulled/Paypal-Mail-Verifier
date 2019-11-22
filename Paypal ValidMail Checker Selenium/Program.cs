@@ -17,12 +17,12 @@ namespace Paypal_Mailer
         {
             Console.WindowHeight = 30;
             Console.WindowWidth = 120;
+            Console.WriteLine("                                             Validating Files....", Color.Aqua);
             Seal.Secret = "Zmkbc5xVUZc36QwFzPTfCp78SH8R9nrJrXBLLbOIG38l2";
             Seal.Initialize("1.0");
-            Console.WriteLine("                                             Validatiing Files....", Color.Aqua);
             System.Console.WriteLine("");
             Console.Write(
-                "                                                Login: 1\n                                            Register: 2   -- ",
+                "                                                Login: 1\n                                                Register: 2   -- ",
                 Color.DeepPink);
 
             var options = int.Parse(Console.ReadLine());
@@ -64,7 +64,7 @@ namespace Paypal_Mailer
                 }
                 else
                 {
-                    Console.WriteLine("Failed to register!");
+                    Console.WriteLine("Failed to register!", Color.Crimson);
                     Thread.Sleep(2000);
                     Environment.Exit(0);
                 }
@@ -118,104 +118,104 @@ namespace Paypal_Mailer
                     Console.Write("Enter Thread Amount: ");
                     var th = int.Parse(Console.ReadLine());
                     Task.Factory.StartNew(TitleBar);
-                    Parallel.ForEach(emailAddressList, new ParallelOptions {MaxDegreeOfParallelism = th}, account =>
-                    {
-                        home:
-                        try
-                        {
-                            var emailAddress = account;
-                            var service = ChromeDriverService.CreateDefaultService();
-                            service.HideCommandPromptWindow = true;
-                            var options = new ChromeOptions();
-                            options.AddArgument("--disable-logging");
-                            options.AddArgument("--headless");
-                            options.LeaveBrowserRunning = false;
-                            var chrome = new ChromeDriver(service, options);
-                            chrome.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-                            chrome.Navigate().GoToUrl("https://www.paypal.com/donate/buttons");
-                            chrome.FindElementByXPath("/html/body/div/div[2]/div/div/div[2]/div/div/button[2]").Click();
-                            chrome.FindElementByXPath(
-                                    "/html/body/div/div[2]/div/div/div[1]/div/div[2]/div[2]/div[3]/button")
-                                .Click();
-                            chrome.FindElementByXPath(
-                                    "/html/body/div/div[2]/div/div/div[1]/div/div[3]/div[2]/div[2]/form/div[1]/div[1]/input")
-                                .SendKeys(emailAddress + Keys.Enter);
-                            chrome.FindElementByXPath(
-                                    "/html/body/div/div[2]/div/div/div[1]/div/div[3]/div[2]/div[3]/button")
-                                .SendKeys(Keys.Enter);
-                            Thread.Sleep(1500);
-                            var textarea = chrome.PageSource;
-                            if (textarea.Contains("https://www.paypal.com/cgi-bin/webscr") ||
-                                textarea.Contains("_donations"))
-                            {
-                                Console.WriteLine($"[+] Good - {account}", Color.Cyan);
-                                writetofile:
-                                try
-                                {
-                                    using (var sr = new StreamWriter("Registered Mails.txt", true))
-                                    {
-                                        sr.WriteLine(emailAddress);
-                                    }
-                                }
-                                catch
-                                {
-                                    Thread.Sleep(500);
-                                    goto writetofile;
-                                }
+                    Parallel.ForEach(emailAddressList, new ParallelOptions { MaxDegreeOfParallelism = th }, account =>
+                      {
+                      home:
+                          try
+                          {
+                              var emailAddress = account;
+                              var service = ChromeDriverService.CreateDefaultService();
+                              service.HideCommandPromptWindow = true;
+                              var options = new ChromeOptions();
+                              options.AddArgument("--disable-logging");
+                              options.AddArgument("--headless");
+                              options.LeaveBrowserRunning = false;
+                              var chrome = new ChromeDriver(service, options);
+                              chrome.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+                              chrome.Navigate().GoToUrl("https://www.paypal.com/donate/buttons");
+                              chrome.FindElementByXPath("/html/body/div/div[2]/div/div/div[2]/div/div/button[2]").Click();
+                              chrome.FindElementByXPath(
+                                      "/html/body/div/div[2]/div/div/div[1]/div/div[2]/div[2]/div[3]/button")
+                                  .Click();
+                              chrome.FindElementByXPath(
+                                      "/html/body/div/div[2]/div/div/div[1]/div/div[3]/div[2]/div[2]/form/div[1]/div[1]/input")
+                                  .SendKeys(emailAddress + Keys.Enter);
+                              chrome.FindElementByXPath(
+                                      "/html/body/div/div[2]/div/div/div[1]/div/div[3]/div[2]/div[3]/button")
+                                  .SendKeys(Keys.Enter);
+                              Thread.Sleep(1500);
+                              var textarea = chrome.PageSource;
+                              if (textarea.Contains("https://www.paypal.com/cgi-bin/webscr") ||
+                                  textarea.Contains("_donations"))
+                              {
+                                  Console.WriteLine($"[+] Good - {account}", Color.Cyan);
+                              writetofile:
+                                  try
+                                  {
+                                      using (var sr = new StreamWriter("Registered Mails.txt", true))
+                                      {
+                                          sr.WriteLine(emailAddress);
+                                      }
+                                  }
+                                  catch
+                                  {
+                                      Thread.Sleep(500);
+                                      goto writetofile;
+                                  }
 
-                                Interlocked.Increment(ref registered);
-                                Interlocked.Increment(ref completed);
+                                  Interlocked.Increment(ref registered);
+                                  Interlocked.Increment(ref completed);
                                 //chrome.Close();
                                 //chrome.Quit();
-                            }
-                            else if (!textarea.Contains("https://www.paypal.com/cgi-bin/webscr") ||
-                                     textarea.Contains("_donations"))
-                            {
-                                wirtetofile:
-                                try
-                                {
-                                    Console.WriteLine($"[-] Bad  - {account}", Color.Crimson);
-                                    using (var sr = new StreamWriter("Un-Registered Mails.txt", true))
-                                    {
-                                        sr.WriteLine(account);
-                                    }
-                                }
-                                catch
-                                {
-                                    Thread.Sleep(500);
-                                    goto wirtetofile;
-                                }
+                              }
+                              else if (!textarea.Contains("https://www.paypal.com/cgi-bin/webscr") ||
+                                       textarea.Contains("_donations"))
+                              {
+                                  wirtetofile:
+                                  try
+                                  {
+                                      Console.WriteLine($"[-] Bad  - {account}", Color.Crimson);
+                                      using (var sr = new StreamWriter("Un-Registered Mails.txt", true))
+                                      {
+                                          sr.WriteLine(account);
+                                      }
+                                  }
+                                  catch
+                                  {
+                                      Thread.Sleep(500);
+                                      goto wirtetofile;
+                                  }
 
-                                Interlocked.Increment(ref unRegistered);
-                                Interlocked.Increment(ref completed);
-                                //chrome.Close();
-                                //chrome.Quit();
-                            }
+                                  Interlocked.Increment(ref unRegistered);
+                                  Interlocked.Increment(ref completed);
+                                  //chrome.Close();
+                                  //chrome.Quit();
+                              }
 
-                            savetofile:
-                            try
-                            {
-                                using (var sr = new StreamWriter("Checked Mails.txt", true))
-                                {
-                                    sr.WriteLine(account);
-                                }
-                            }
-                            catch
-                            {
-                                Thread.Sleep(500);
-                                goto savetofile;
-                            }
+                              savetofile:
+                              try
+                              {
+                                  using (var sr = new StreamWriter("Checked Mails.txt", true))
+                                  {
+                                      sr.WriteLine(account);
+                                  }
+                              }
+                              catch
+                              {
+                                  Thread.Sleep(500);
+                                  goto savetofile;
+                              }
 
-                            chrome.Close();
-                            chrome.Quit();
-                        }
-                        catch (Exception exception)
-                        {
-                            System.Console.WriteLine(exception.Message);
+                              chrome.Close();
+                              chrome.Quit();
+                          }
+                          catch (Exception)
+                          {
+                            // System.Console.WriteLine(exception.Message);
                             Interlocked.Increment(ref errors);
-                            goto home;
-                        }
-                    });
+                              goto home;
+                          }
+                      });
 
 
                     Console.WriteLine("");
