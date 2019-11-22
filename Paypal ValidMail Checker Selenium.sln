@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29505.145
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paypal ValidMail Checker Selenium", "Paypal ValidMail Checker Selenium\Paypal ValidMail Checker Selenium.csproj", "{181B57D8-81EB-4A29-A533-7D010FD04AE7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{181B57D8-81EB-4A29-A533-7D010FD04AE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{181B57D8-81EB-4A29-A533-7D010FD04AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{181B57D8-81EB-4A29-A533-7D010FD04AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{181B57D8-81EB-4A29-A533-7D010FD04AE7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64AD25C2-3195-4FE3-959D-298AE0836483}
+	EndGlobalSection
+EndGlobal
