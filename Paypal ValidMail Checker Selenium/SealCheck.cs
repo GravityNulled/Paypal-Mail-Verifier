@@ -1,20 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace TrinitySeal
 {
-    class SealCheck
+    internal class SealCheck
     {
-        public static bool isValidDLL = false;
+        public static bool isValidDLL;
+
         public static void HashChecks()
         {
-            if (CalculateMD5("Newtonsoft.Json.dll") != "4df6c8781e70c3a4912b5be796e6d337" || CalculateMD5(typeof(TrinitySeal.Seal).Assembly.Location) != "0788cb32d5eb03916c701e0d18e25a74")
+            if (CalculateMD5("Newtonsoft.Json.dll") != "4df6c8781e70c3a4912b5be796e6d337" ||
+                CalculateMD5(typeof(Seal).Assembly.Location) != "0788cb32d5eb03916c701e0d18e25a74")
             {
                 Console.WriteLine("Hash check failed! Exiting...");
                 Process.GetCurrentProcess().Kill();
