@@ -20,10 +20,9 @@ namespace Paypal_Mailer
             Seal.Secret = "Zmkbc5xVUZc36QwFzPTfCp78SH8R9nrJrXBLLbOIG38l2";
             Seal.Initialize("1.0");
             Console.WriteLine("                                             Validatiing Files....", Color.Aqua);
-
             System.Console.WriteLine("");
             Console.Write(
-                "                                            Login: 1\n                                            Register: 2   -- ",
+                "                                                Login: 1\n                                            Register: 2   -- ",
                 Color.DeepPink);
 
             var options = int.Parse(Console.ReadLine());
